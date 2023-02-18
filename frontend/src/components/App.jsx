@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter, Link, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import useAuth from '../hooks/index.jsx';
 import { AuthContext } from '../contexts/index.jsx';
@@ -22,6 +23,16 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+const AuthButton = () => {
+  const auth = useAuth();
+
+  return (
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>Выйти</Button>
+      : ''
+  );
+};
+
 const IsLogin = ({ children }) => {
   const auth = useAuth();
   return (
@@ -34,6 +45,13 @@ const App = () => {
   return (
   <AuthProvider>
     <BrowserRouter>
+    <div className="d-flex flex-column h-100">
+      <Navbar className="shadow-sm" bg="white" expand="lg">
+        <div className="container">
+        <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+        <AuthButton />
+        </div>
+      </Navbar>
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="login" element={<Authorization />} />
@@ -46,6 +64,7 @@ const App = () => {
           )}
         />
       </Routes>
+      </div>
     </BrowserRouter>
   </AuthProvider>
   );

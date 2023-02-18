@@ -1,5 +1,4 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { Button, Form } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -39,7 +38,9 @@ const Authorization = () => {
   });
 
   return (
-    <div className="container col-12 col-md-8 col-xxl-6">
+    <div className="container-fluid h-100">
+    <div className="row justify-content-center align-content-center h-100">
+      <div className="col-12 col-md-8 col-xxl-6">
       <div className="card shadow-sm">
         <div className="card-body row p-5">
           <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
@@ -48,14 +49,14 @@ const Authorization = () => {
           <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
             <h1 className="text-center mb-4">Войти</h1>
             <fieldset disabled={formik.isSubmitting}>
-              <Form.Group className="mb-3" controlId="formName">
-                <Form.Label />
+              <Form.Group className="form-floating mb-3" controlId="formName">
                 <Form.Control name="username" isInvalid={authFailed} value={formik.values.username} onChange={formik.handleChange} required placeholder="Ваш ник" />
+                <Form.Label>Ваш ник</Form.Label>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label />
+              <Form.Group className="form-floating mb-4" controlId="formPassword">
                 <Form.Control name="password" isInvalid={authFailed} value={formik.values.password} onChange={formik.handleChange} type="password" required placeholder="Пароль" />
-                <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+                <Form.Label>Ваш пароль</Form.Label>
+                <Form.Control.Feedback tooltip type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
               </Form.Group>
               <Button variant="outline-primary w-100 mb-3" type="submit">
                 Войти
@@ -63,6 +64,14 @@ const Authorization = () => {
             </fieldset>
           </Form>
         </div>
+        <div className="card-footer p-4">
+          <div className="text-center">
+            <span>Нет аккаунта? </span>
+            <a href="/signup">Регистрация</a>
+          </div>
+        </div>
+      </div>
+      </div>
       </div>
     </div>
   );
