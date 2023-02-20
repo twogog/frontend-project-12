@@ -12,7 +12,12 @@ const channelsSlice = createSlice({
   // Редьюсеры в слайсах мутируют состояние и ничего не возвращают наружу
   reducers: {
     addChannels: (state, action) => {
-      state.channels.push(...action.payload);
+      const onlyId = state.channels.map((channel) => channel.id);
+      const filtered = action.payload.filter((channel) => !onlyId.includes(channel.id));
+      state.channels.push(...filtered);
+    },
+    addChannel: (state, action) => {
+      state.channels.push(action.payload);
     },
     addCurrentChannel: (state, action) => {
       state.currentChannel = action.payload;
@@ -22,7 +27,7 @@ const channelsSlice = createSlice({
 
 // Слайс генерирует действия, которые экспортируются отдельно
 // Действия генерируются автоматически из имен ключей редьюсеров
-export const { addChannels, addCurrentChannel } = channelsSlice.actions;
+export const { addChannels, addChannel, addCurrentChannel } = channelsSlice.actions;
 
 // По умолчанию экспортируется редьюсер, сгенерированный слайсом
 export default channelsSlice.reducer;

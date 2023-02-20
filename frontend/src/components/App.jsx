@@ -7,6 +7,7 @@ import Authorization from './Authorization';
 import Chat from './Chat';
 import NotFound from './NotFound';
 import { useContext } from 'react';
+import getModal from './modals/index.js';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('user'));
@@ -40,8 +41,20 @@ const IsLogin = ({ children }) => {
   );
 };
 
+const renderModal = ({ modalInfo, hideModal }) => {
+  if (!modalInfo) {
+    return null;
+  }
+
+  const Component = getModal(modalInfo);
+  return <Component modalInfo={modalInfo} onHide={hideModal} />;
+};
+
 const App = () => {
-  console.log('app');
+  const [modalInfo, setModalInfo] = useState(null);
+  const hideModal = () => setModalInfo(null);
+  const showModal = (type) => setModalInfo(type);
+
   return (
   <AuthProvider>
     <BrowserRouter>
@@ -59,12 +72,13 @@ const App = () => {
           path="/"
           element={(
             <IsLogin>
-              <Chat />
+              <Chat showModal={showModal} />
             </IsLogin>
           )}
         />
       </Routes>
       </div>
+      {renderModal({ modalInfo, hideModal })}
     </BrowserRouter>
   </AuthProvider>
   );

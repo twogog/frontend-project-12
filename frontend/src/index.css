@@ -12,3 +12,10 @@ code {
     monospace;
 }
 
+ul.nav * {
+  border: none;
+}
+
+.col-4.col-md-2.border-end.pt-5.px-0.bg-light button:focus {
+  box-shadow: none;
+}

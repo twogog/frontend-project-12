@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import io from 'socket.io-client';
 
-const Form = ({value}) => {
+const Form = ({ value }) => {
   const [message, setMessage] = useState('');
   const socket = io();
   const handleSubmit = (e) => {
@@ -19,7 +20,7 @@ const Form = ({value}) => {
     <form onSubmit={handleSubmit} noValidate="" className="py-1 border rounded-2">
       <div className="input-group has-validation">
         <input name="body" onChange={(e) => setMessage(e.target.value)} value={message} aria-label="Новое сообщение" placeholder="Введите сообщение..." className="border-0 p-0 ps-2 form-control" />
-        <button type="submit" disabled={!message} className="btn btn-group-vertical">
+        <button type="submit" style={{ border: 'none' }} disabled={!message} className="btn btn-group-vertical">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
               fillRule="evenodd"
