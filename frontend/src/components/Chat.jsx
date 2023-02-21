@@ -47,7 +47,6 @@ const Chat = ({ showModal }) => {
 
   const activeName = channelState.channels.filter((channel) => channel.id === channelState.currentChannel)
     .map((channel) => channel.name);
-  console.log(messagesState);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

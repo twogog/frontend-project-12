@@ -1,26 +1,21 @@
-import { Modal, Form, Button } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import { useState, useEffect, useRef } from 'react';
+import { Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import axios from 'axios';
-import { addChannel } from '../../slices/channelsSlice';
-import routes from '../../routes';
+import { removeChannel } from '../../slices/channelsSlice';
 
 const RemoveChannel = ({ modalInfo, onHide }) => {
   const dispatch = useDispatch();
   const channelState = useSelector((state) => state.channels);
   const socket = io();
-  const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('user'));
-    return { Authorization: `Bearer ${userId.token}` };
-  };
-  const removeChn = (name) => {
+
+  const removeChn = () => {
     // emit new channel
-    socket.emit('newChannel', { name });
-    socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload)); // { id: 6, name: "new channel", removable: true }
+    const id = channelState.modalId;
+    socket.emit('removeChannel', { id });
+    socket.on('removeChannel', (payload) => {
+      dispatch(removeChannel(payload.id));
     });
+    onHide();
   };
 
   return (
@@ -32,7 +27,7 @@ const RemoveChannel = ({ modalInfo, onHide }) => {
         <p className="lead">Уверены?</p>
         <div className="d-flex justify-content-end">
           <button type="button" onClick={onHide} className="me-2 btn btn-secondary">Отменить</button>
-          <button type="button" className="btn btn-danger">Удалить</button>
+          <button type="button" onClick={removeChn} className="btn btn-danger">Удалить</button>
         </div>
       </Modal.Body>
     </Modal>

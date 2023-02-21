@@ -1,28 +1,32 @@
+import { io } from 'socket.io-client';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
-import axios from 'axios';
-import { addChannel } from '../../slices/channelsSlice';
-import routes from '../../routes';
+import { renameChannel } from '../../slices/channelsSlice';
 
 const RenameChannel = ({ modalInfo, onHide }) => {
   const dispatch = useDispatch();
   const channelState = useSelector((state) => state.channels);
+  const refer = useRef(null);
+  const prevValue = channelState.channels.filter((channel) => channel.id === channelState.modalId);
   const socket = io();
   const [addFailed, setAddFailed] = useState(false);
   const [errorMessage, setMessage] = useState('');
-  const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('user'));
-    return { Authorization: `Bearer ${userId.token}` };
-  };
-  const addChn = (name) => {
-    // emit new channel
-    socket.emit('newChannel', { name });
-    socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload)); // { id: 6, name: "new channel", removable: true }
+
+  useEffect(() => {
+    refer.current.value = prevValue[0].name;
+  }, []);
+
+  const renameChn = (name) => {
+    const id = channelState.modalId;
+    // subscribe rename channel
+    socket.on('renameChannel', (payload) => {
+      dispatch(renameChannel(payload)); // { id: 7, name: "new name channel", removable: true }
     });
+
+    // emit rename channel
+    socket.emit('renameChannel', { id, name });
   };
 
   const formik = useFormik({
@@ -41,7 +45,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
           setAddFailed(true);
         }
       } else {
-        addChn(channelName);
+        renameChn(channelName);
         setAddFailed(false);
         onHide();
       }
@@ -56,7 +60,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
         <Modal.Body>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group controlId="channelName">
-              <Form.Control className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
+              <Form.Control ref={refer} className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
               <Form.Label hidden />
               <div className="invalid-feedback">{errorMessage}</div>
               <div className="d-flex justify-content-end">
