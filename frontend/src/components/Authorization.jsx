@@ -55,7 +55,7 @@ const Authorization = () => {
               </Form.Group>
               <Form.Group className="form-floating mb-4" controlId="formPassword">
                 <Form.Control name="password" isInvalid={authFailed} value={formik.values.password} onChange={formik.handleChange} type="password" required placeholder="Пароль" />
-                <Form.Label>Ваш пароль</Form.Label>
+                <Form.Label>Пароль</Form.Label>
                 <Form.Control.Feedback tooltip type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
               </Form.Group>
               <Button variant="outline-primary w-100 mb-3" type="submit">
