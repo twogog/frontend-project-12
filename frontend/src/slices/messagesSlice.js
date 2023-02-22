@@ -14,7 +14,8 @@ const messagesSlice = createSlice({
       state.messages.push(...action.payload);
     },
     addMessage: (state, action) => {
-      state.messages.push(action.payload);
+      const onlyId = state.messages.map((message) => message.id);
+      if (!onlyId.includes(action.payload.id)) state.messages.push(action.payload);
     },
   },
 });

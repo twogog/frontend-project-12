@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import image from '../assets/avatar.jpg';
+import image from '../assets/avatar_1.jpg';
 import useAuth from '../hooks/index.jsx';
 import routes from '../routes.js';
 

@@ -1,18 +1,20 @@
-import { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
+import { addMessage } from '../slices/messagesSlice';
 
 const Form = ({ value }) => {
+  const dispatch = useDispatch();
   const [message, setMessage] = useState('');
   const socket = io();
   const handleSubmit = (e) => {
     e.preventDefault();
     const local = localStorage.getItem('user');
     const { username } = JSON.parse(local);
-    socket.emit('newMessage', { body: message, channelId: value, username });
     socket.on('newMessage', (payload) => {
-      console.log(payload); // => { body: "new message", channelId: 7, id: 8, username: "admin" }
+      dispatch(addMessage(payload));
     });
+    socket.emit('newMessage', { body: message, channelId: value, username });
     setMessage('');
   };
 

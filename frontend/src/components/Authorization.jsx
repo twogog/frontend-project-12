@@ -10,7 +10,6 @@ import routes from '../routes.js';
 const Authorization = () => {
   const [authFailed, setAuthFailed] = useState(false);
   const auth = useAuth();
-  console.log('author');
   const location = useLocation();
   const navigate = useNavigate();
   const formik = useFormik({

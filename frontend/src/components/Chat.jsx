@@ -33,8 +33,8 @@ const Chat = ({ showModal }) => {
       } = data;
 
       if (messages.length > messagesState.length) {
+        console.log(1);
         dispatch(addMessages(messages));
-        socket.on('newMessage', (payload) => { dispatch(addMessage(payload)); });
       }
       dispatch(addChannels(channels));
     };
