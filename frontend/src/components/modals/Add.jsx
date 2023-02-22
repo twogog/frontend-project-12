@@ -13,10 +13,7 @@ const AddChannel = ({ modalInfo, onHide }) => {
   const socket = io();
   const [addFailed, setAddFailed] = useState(false);
   const [errorMessage, setMessage] = useState('');
-  const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('user'));
-    return { Authorization: `Bearer ${userId.token}` };
-  };
+
   const addChn = (name) => {
     // emit new channel
     socket.emit('newChannel', { name });

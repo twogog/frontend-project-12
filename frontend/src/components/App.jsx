@@ -8,6 +8,7 @@ import Chat from './Chat';
 import NotFound from './NotFound';
 import { useContext } from 'react';
 import getModal from './modals/index.js';
+import SignUp from './SignUp.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('user'));
@@ -68,6 +69,7 @@ const App = () => {
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="login" element={<Authorization />} />
+        <Route path="signup" element={<SignUp />} />
         <Route
           path="/"
           element={(
