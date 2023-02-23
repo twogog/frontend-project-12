@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useState, useRef, useEffect } from 'react';
@@ -31,7 +32,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: '',
+      channelName: prevValue[0].name,
     },
     onSubmit: async (values) => {
       const { channelName } = values;
@@ -48,6 +49,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
         renameChn(channelName);
         setAddFailed(false);
         onHide();
+        toast.success('Канал переименован');
       }
     },
   });
@@ -61,7 +63,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group controlId="channelName">
               <Form.Control ref={refer} className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
-              <Form.Label hidden />
+              <Form.Label hidden>Имя канала</Form.Label>
               <div className="invalid-feedback">{errorMessage}</div>
               <div className="d-flex justify-content-end">
                 <Button className="me-2" variant="secondary" onClick={onHide}>

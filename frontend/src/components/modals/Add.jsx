@@ -1,5 +1,6 @@
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -41,6 +42,7 @@ const AddChannel = ({ modalInfo, onHide }) => {
         addChn(channelName);
         setAddFailed(false);
         onHide();
+        toast.success('Канал создан');
       }
     },
   });

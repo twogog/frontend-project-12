@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import useAuth from '../hooks/index.jsx';
 import { AuthContext } from '../contexts/index.jsx';
@@ -81,6 +82,7 @@ const App = () => {
       </Routes>
       </div>
       {renderModal({ modalInfo, hideModal })}
+      <ToastContainer />
     </BrowserRouter>
   </AuthProvider>
   );
