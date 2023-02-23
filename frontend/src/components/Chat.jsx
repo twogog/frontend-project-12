@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { uniqueId } from 'lodash';
 import axios from 'axios';
 import routes from '../routes.js';
 import { addChannels, addCurrentChannel } from '../slices/channelsSlice.js';
@@ -37,7 +38,7 @@ const Chat = ({ showModal }) => {
     };
     fetchContent();
     scrollChat();
-  }, [messagesState, channelState]);
+  }, [messagesState, dispatch, channelState]);
 
   const filteredMessages = messagesState
     .filter((message) => (message.channelId === channelState.currentChannel));
@@ -83,8 +84,8 @@ const Chat = ({ showModal }) => {
               <span>{`${filteredMessages.length} сообщений`}</span>
             </div>
             <div id="messages-box" ref={listRef} className="chat-messages overflow-auto px-5 ">
-              {filteredMessages.map(({ body, username }, id) => (
-                <div key={id} className="text-break mb-2">
+              {filteredMessages.map(({ body, username }) => (
+                <div key={uniqueId()} className="text-break mb-2">
                   <b>{username}</b>
                   {`: ${body}`}
                 </div>

@@ -17,6 +17,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
 
   useEffect(() => {
     refer.current.value = prevValue[0].name;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renameChn = (name) => {
