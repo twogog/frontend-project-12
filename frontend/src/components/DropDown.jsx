@@ -14,7 +14,9 @@ const DropButton = ({ value, id, showModal }) => {
     <Dropdown className="d-flex" as={ButtonGroup}>
       <Button onClick={() => dispatch(addCurrentChannel(id))} variant={id === channelState.currentChannel ? 'secondary' : 'white'} className="w-100 rounded-0 text-start text-truncate">{`# ${value}`}</Button>
 
-      <Dropdown.Toggle split variant={id === channelState.currentChannel ? 'secondary' : 'white'} className="flex-grow-0" />
+      <Dropdown.Toggle split variant={id === channelState.currentChannel ? 'secondary' : 'white'} className="flex-grow-0">
+        <span hidden>Управление каналом</span>
+      </Dropdown.Toggle>
 
       <Dropdown.Menu>
         <Dropdown.Item onClick={() => openModalWithId('removing', id)} href="#/action-1">Удалить</Dropdown.Item>
