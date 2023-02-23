@@ -1,12 +1,10 @@
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import axios from 'axios';
 import { addChannel } from '../../slices/channelsSlice';
-import routes from '../../routes';
 
 const AddChannel = ({ modalInfo, onHide }) => {
   const dispatch = useDispatch();
@@ -49,27 +47,27 @@ const AddChannel = ({ modalInfo, onHide }) => {
 
   return (
     <Modal centered show={modalInfo} onHide={onHide}>
-        <Modal.Header closeButton>
-          <Modal.Title>Добавить канал</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={formik.handleSubmit}>
-            <Form.Group controlId="channelName">
-              <Form.Control className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
-              <Form.Label hidden>Имя канала/</Form.Label>
-              <div className="invalid-feedback">{errorMessage}</div>
-              <div className="d-flex justify-content-end">
-                <Button className="me-2" variant="secondary" onClick={onHide}>
-                  Отменить
-                </Button>
-                <Button variant="primary" type="submit">
-                  Отправить
-                </Button>
-              </div>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <Modal.Header closeButton>
+        <Modal.Title>Добавить канал</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group controlId="channelName">
+            <Form.Control className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
+            <Form.Label hidden>Имя канала/</Form.Label>
+            <div className="invalid-feedback">{errorMessage}</div>
+            <div className="d-flex justify-content-end">
+              <Button className="me-2" variant="secondary" onClick={onHide}>
+                Отменить
+              </Button>
+              <Button variant="primary" type="submit">
+                Отправить
+              </Button>
+            </div>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 

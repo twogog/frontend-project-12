@@ -56,27 +56,27 @@ const RenameChannel = ({ modalInfo, onHide }) => {
 
   return (
     <Modal centered show={modalInfo} onHide={onHide}>
-        <Modal.Header closeButton>
-          <Modal.Title>Переименовать канал</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={formik.handleSubmit}>
-            <Form.Group controlId="channelName">
-              <Form.Control ref={refer} className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
-              <Form.Label className="visually-hidden">Имя канала</Form.Label>
-              <div className="invalid-feedback">{errorMessage}</div>
-              <div className="d-flex justify-content-end">
-                <Button className="me-2" variant="secondary" onClick={onHide}>
-                  Отменить
-                </Button>
-                <Button variant="primary" type="submit">
-                  Отправить
-                </Button>
-              </div>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <Modal.Header closeButton>
+        <Modal.Title>Переименовать канал</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group controlId="channelName">
+            <Form.Control ref={refer} className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
+            <Form.Label className="visually-hidden">Имя канала</Form.Label>
+            <div className="invalid-feedback">{errorMessage}</div>
+            <div className="d-flex justify-content-end">
+              <Button className="me-2" variant="secondary" onClick={onHide}>
+                Отменить
+              </Button>
+              <Button variant="primary" type="submit">
+                Отправить
+              </Button>
+            </div>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 

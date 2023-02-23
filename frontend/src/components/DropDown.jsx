@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dropdown, Button, ButtonGroup } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { addCurrentChannel, idChannel } from '../slices/channelsSlice.js';

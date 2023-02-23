@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import io from 'socket.io-client';
 import routes from '../routes.js';
 import { addChannels, addCurrentChannel } from '../slices/channelsSlice.js';
-import { addMessages, addMessage } from '../slices/messagesSlice.js';
+import { addMessages } from '../slices/messagesSlice.js';
 import Form from './Form.jsx';
 import DropButton from './DropDown.jsx';
 
 const Chat = ({ showModal }) => {
   const listRef = useRef(null);
-  const socket = io();
   const dispatch = useDispatch();
   const channelState = useSelector((state) => state.channels);
   const messagesState = useSelector((state) => state.messages.messages);
@@ -29,7 +27,6 @@ const Chat = ({ showModal }) => {
       const {
         channels,
         messages,
-        currentChannelId,
       } = data;
 
       if (messages.length > messagesState.length) {
@@ -42,10 +39,11 @@ const Chat = ({ showModal }) => {
     scrollChat();
   }, [messagesState, channelState]);
 
-  const filteredMessages = messagesState.filter((message) =>
-    (message.channelId === channelState.currentChannel));
+  const filteredMessages = messagesState
+    .filter((message) => (message.channelId === channelState.currentChannel));
 
-  const activeName = channelState.channels.filter((channel) => channel.id === channelState.currentChannel)
+  const activeName = channelState.channels
+    .filter((channel) => channel.id === channelState.currentChannel)
     .map((channel) => channel.name);
 
   return (
@@ -80,15 +78,15 @@ const Chat = ({ showModal }) => {
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
               <p className="m-0">
-                <b># {activeName}</b>
+                <b>{`# ${activeName}`}</b>
               </p>
               <span>{`${filteredMessages.length} сообщений`}</span>
             </div>
             <div id="messages-box" ref={listRef} className="chat-messages overflow-auto px-5 ">
-              {filteredMessages.map(({ body, channelId, username }, id) => (
+              {filteredMessages.map(({ body, username }, id) => (
                 <div key={id} className="text-break mb-2">
                   <b>{username}</b>
-                  : {body}
+                  {`: ${body}`}
                 </div>
               ))}
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 // Начальное значение
@@ -31,7 +32,8 @@ const channelsSlice = createSlice({
     },
     renameChannel: (state, action) => {
       const { id } = action.payload;
-      state.channels = state.channels.map((channel) => channel.id === id ? action.payload : channel);
+      state.channels = state.channels
+        .map((channel) => (channel.id === id ? action.payload : channel));
     },
     idChannel: (state, action) => {
       state.modalId = action.payload;
@@ -41,7 +43,9 @@ const channelsSlice = createSlice({
 
 // Слайс генерирует действия, которые экспортируются отдельно
 // Действия генерируются автоматически из имен ключей редьюсеров
-export const { renameChannel, idChannel, removeChannel, addChannels, addChannel, addCurrentChannel } = channelsSlice.actions;
+export const {
+  renameChannel, idChannel, removeChannel, addChannels, addChannel, addCurrentChannel,
+} = channelsSlice.actions;
 
 // По умолчанию экспортируется редьюсер, сгенерированный слайсом
 export default channelsSlice.reducer;

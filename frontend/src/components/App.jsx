@@ -1,13 +1,14 @@
-import { BrowserRouter, Link, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import {
+  BrowserRouter, Link, Routes, Route, Navigate,
+} from 'react-router-dom';
+import { Navbar, Button } from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useAuth from '../hooks/index.jsx';
 import { AuthContext } from '../contexts/index.jsx';
 import Authorization from './Authorization';
 import Chat from './Chat';
 import NotFound from './NotFound';
-import { useContext } from 'react';
 import getModal from './modals/index.js';
 import SignUp from './SignUp.jsx';
 
@@ -58,33 +59,33 @@ const App = () => {
   const showModal = (type) => setModalInfo(type);
 
   return (
-  <AuthProvider>
-    <BrowserRouter>
-    <div className="d-flex flex-column h-100">
-      <Navbar className="shadow-sm" bg="white" expand="lg">
-        <div className="container">
-        <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-        <AuthButton />
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="d-flex flex-column h-100">
+          <Navbar className="shadow-sm" bg="white" expand="lg">
+            <div className="container">
+              <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+              <AuthButton />
+            </div>
+          </Navbar>
+          <Routes>
+            <Route path="*" element={<NotFound />} />
+            <Route path="login" element={<Authorization />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route
+              path="/"
+              element={(
+                <IsLogin>
+                  <Chat showModal={showModal} />
+                </IsLogin>
+              )}
+            />
+          </Routes>
         </div>
-      </Navbar>
-      <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="login" element={<Authorization />} />
-        <Route path="signup" element={<SignUp />} />
-        <Route
-          path="/"
-          element={(
-            <IsLogin>
-              <Chat showModal={showModal} />
-            </IsLogin>
-          )}
-        />
-      </Routes>
-      </div>
-      {renderModal({ modalInfo, hideModal })}
-      <ToastContainer />
-    </BrowserRouter>
-  </AuthProvider>
+        {renderModal({ modalInfo, hideModal })}
+        <ToastContainer />
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
