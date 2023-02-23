@@ -63,7 +63,7 @@ const RenameChannel = ({ modalInfo, onHide }) => {
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group controlId="channelName">
               <Form.Control ref={refer} className="mb-2" name="channelName" isInvalid={addFailed} value={formik.values.addChanel} onChange={formik.handleChange} required />
-              <Form.Label hidden>Имя канала</Form.Label>
+              <Form.Label className="visually-hidden">Имя канала</Form.Label>
               <div className="invalid-feedback">{errorMessage}</div>
               <div className="d-flex justify-content-end">
                 <Button className="me-2" variant="secondary" onClick={onHide}>
