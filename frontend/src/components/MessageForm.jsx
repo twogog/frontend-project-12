@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 import { addMessage } from '../slices/messagesSlice';
 
-const Form = ({ value }) => {
+const MessageForm = ({ value }) => {
   const dispatch = useDispatch();
   const [message, setMessage] = useState('');
   const socket = io();
@@ -36,4 +36,4 @@ const Form = ({ value }) => {
   );
 };
 
-export default Form;
+export default MessageForm;

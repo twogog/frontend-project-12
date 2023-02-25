@@ -1,13 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import axios from 'axios';
 import routes from '../routes.js';
 import { addChannels, addCurrentChannel } from '../slices/channelsSlice.js';
 import { addMessages } from '../slices/messagesSlice.js';
-import Form from './Form.jsx';
+import MessageForm from './MessageForm';
 import DropButton from './DropDown.jsx';
 
 const Chat = ({ showModal }) => {
+  const filter = (word) => leoProfanity.clean(word);
+  const { t } = useTranslation();
   const listRef = useRef(null);
   const dispatch = useDispatch();
   const channelState = useSelector((state) => state.channels);
@@ -30,7 +34,6 @@ const Chat = ({ showModal }) => {
       } = data;
 
       if (messages.length > messagesState.length) {
-        console.log(1);
         dispatch(addMessages(messages));
       }
       dispatch(addChannels(channels));
@@ -63,7 +66,7 @@ const Chat = ({ showModal }) => {
           <ul className="nav flex-column nav-pills nav-fill px-2">
             {channelState.channels.map(({ id, name, removable }) => (
               <li key={id} className="nav-item w-100">
-                {removable ? <DropButton value={name} id={id} showModal={showModal} /> : (
+                {removable ? <DropButton value={filter(name)} id={id} showModal={showModal} /> : (
                   <button onClick={() => dispatch(addCurrentChannel(id))} type="button" className={`w-100 rounded-0 text-start btn ${id === channelState.currentChannel ? 'btn-secondary' : ''}`}>
                     <span className="me-1">#</span>
                     {name}
@@ -78,20 +81,20 @@ const Chat = ({ showModal }) => {
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
               <p className="m-0">
-                <b>{`# ${activeName}`}</b>
+                <b>{`# ${filter(activeName.join())}`}</b>
               </p>
-              <span>{`${filteredMessages.length} сообщений`}</span>
+              <span>{t('chatBox.messagesCount.count', { count: filteredMessages.length })}</span>
             </div>
             <div id="messages-box" ref={listRef} className="chat-messages overflow-auto px-5 ">
               {filteredMessages.map(({ body, username, id }) => (
                 <div key={id} className="text-break mb-2">
-                  <b>{username}</b>
-                  {`: ${body}`}
+                  <b>{filter(username)}</b>
+                  {`: ${filter(body)}`}
                 </div>
               ))}
             </div>
             <div className="mt-auto px-5 py-3">
-              <Form value={channelState.currentChannel} />
+              <MessageForm value={channelState.currentChannel} />
             </div>
           </div>
         </div>
